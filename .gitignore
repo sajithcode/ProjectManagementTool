@@ -1,0 +1,59 @@
+# .NET
+bin/
+obj/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.swp
+*.user
+*.suo
+.settings/
+*.cache/
+*.pdb
+
+# Visual Studio cache directories
+.vs/
+*.sln.docstates
+
+# Angular
+node_modules/
+dist/
+tmp/
+.angular/
+.cache/
+
+# Exclude only actual source maps
+!src/**/*.map
+
+# Environment Files 
+.env
+.env.*
+/*.env
+
+# Logs & Temp
+*.log
+logs/
+*.tmp
+*.temp
+# IDE Cache Files
+
+# VS Code
+.vscode/* 
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+
+# OS Generated
+.DS_Store
+Thumbs.db
+
+# Optional: Git Ignore Backup & Build Artifacts
+*.zip
+*.rar
+*.bak
+build/
+release/
+publish/
