@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backendAPI.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
+    [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
         private readonly IRoleService _roleService;
