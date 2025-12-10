@@ -11,5 +11,6 @@ namespace backendAPI.Services
         Task<UserReadDto?> UpdateAsync(int id, UserUpdateDto dto);
         Task<bool> DeleteAsync(int id);
         Task<bool> ChangeActiveStatusAsync(int id, bool isActive);
+        Task<String?> LoginAsync(LoginDto dto);
     }
 }

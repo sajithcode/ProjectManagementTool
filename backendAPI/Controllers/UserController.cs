@@ -1,6 +1,7 @@
 ﻿
 using backendAPI.Dtos;
 using backendAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backendAPI.Controllers
@@ -16,6 +17,7 @@ namespace backendAPI.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "2")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -31,6 +33,7 @@ namespace backendAPI.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "2")]
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserCreateDto dto)
         {

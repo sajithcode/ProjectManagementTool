@@ -2,16 +2,24 @@
 using backendAPI.Dtos;
 using backendAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace backendAPI.Services
 {
     public class UserService : IUserService
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public UserService(AppDbContext context)
+        public UserService(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<UserReadDto>> GetAllAsync()
@@ -48,16 +56,19 @@ namespace backendAPI.Services
 
         public async Task<UserReadDto> CreateAsync(UserCreateDto dto)
         {
+            var hasher = new PasswordHasher<User>();
+
             var user = new User
             {
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
                 ContactNo = dto.ContactNo,
-                Password = dto.Password,
                 RoleID = dto.RoleID,
                 IsActive = true
             };
+
+            user.Password = hasher.HashPassword(user, dto.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -115,6 +126,44 @@ namespace backendAPI.Services
             user.IsActive = isActive;
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<String> LoginAsync(LoginDto dto)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Email == dto.Email);
+
+            if (user == null)
+                return null;
+
+            var hasher = new PasswordHasher<User>();
+            var result = hasher.VerifyHashedPassword(user, user.Password, dto.Password);
+
+            if (result == PasswordVerificationResult.Failed)
+                return null;
+
+            var jwt = _configuration.GetSection("Jwt");
+            var key = Encoding.UTF8.GetBytes(jwt["Key"]);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("RoleID", user.RoleID.ToString()),
+                new Claim(ClaimTypes.Role, user.RoleID.ToString()) // For Role-based access
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: jwt["Issuer"],
+                audience: jwt["Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(double.Parse(jwt["ExpireMinutes"])),
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256
+                    )
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
