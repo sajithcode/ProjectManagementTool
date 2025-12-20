@@ -17,7 +17,7 @@ namespace backendAPI.Controllers
             _userService = userService;
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
