@@ -1,0 +1,46 @@
+<div class="container mt-4">
+  <h3 class="mb-3">User Roles</h3>
+  <button routerLink="/createRole" type="button" class="btn btn-primary mb-3">
+    Add Role
+  </button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Role Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of roleList; track $index){
+      <tr>
+        <td scope="row">{{ $index + 1 }}</td>
+        <td>{{ item.roleName }}</td>
+        <td>{{ item.roleDescription }}</td>
+        <td>{{ item.status ? "Active" : "Inactive" }}</td>
+        <!-- <td>
+          <button type="button" class="btn btn-primary" (click)="onDeleteRole(item.roleID)">Delete</button>
+        </td> -->
+        <td>
+          <button
+            type="button"
+            class="btn btn-warning "
+            [routerLink]="['/editRole', item.roleID]"
+            >Edit
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger ms-3"
+            (click)="onDeleteRole(item.roleID)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+
+      }
+    </tbody>
+  </table>
+</div>
