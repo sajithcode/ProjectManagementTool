@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class EditRoleComponent implements OnInit {
   editRole: Role = {
-    // roleID: 0,
     roleName: '',
     roleDescription: '',
     status: true,

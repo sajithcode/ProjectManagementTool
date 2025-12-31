@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <h3 class="mb-3">User management</h3>
+  <button routerLink="/createUser" type="button" class="btn btn-primary mb-3">
+    Add User
+  </button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact No</th>
+        <th scope="col">Role</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of usersList; track $index){
+      <tr>
+        <td scope="row">{{ $index + 1 }}</td>
+        <td>{{ item.firstName }}</td>
+        <td>{{ item.lastName }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.contactNo }}</td>
+        <td>{{ getRoleName(item.roleID) }}</td>
+        <td>{{ item.isActive ? "Active" : "Inactive" }}</td>
+        <!-- <td>
+          <button type="button" class="btn btn-primary" (click)="onDeleteRole(item.roleID)">Delete</button>
+        </td> -->
+        <td>
+          <button
+            type="button"
+            class="btn btn-warning "
+            [routerLink]="['/editUser', item.userID]"
+            >Edit
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger ms-3"
+            (click)="onDeleteUser(item.userID)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+
+      }
+    </tbody>
+  </table>
+</div>

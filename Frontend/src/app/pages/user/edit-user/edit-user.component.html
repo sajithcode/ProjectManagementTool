@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <h3 class="mb-3">Edit Role</h3>
+  <form>
+    <div class="form-group">
+      <label for="email">First Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        [(ngModel)]="editUser.firstName"
+        name="firstName"
+      />
+    </div>
+    <div class="form-group">
+      <label for="email">Last Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        [(ngModel)]="editUser.lastName"
+        name="lastName"
+      />
+    </div>
+    <div class="form-group">
+      <label for="email">Contact No:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        [(ngModel)]="editUser.contactNo"
+        name="contactNo"
+      />
+    </div>
+    <div class="form-group">
+      <label for="role">Role:</label>
+      <select
+        class="form-control"
+        id="role"
+        [(ngModel)]="editUser.roleID"
+        name="roleID"
+      >
+        <option *ngFor="let role of roles" [value]="role.roleID">
+          {{ role.roleName }}
+        </option>
+      </select>
+    </div>
+    <select
+      class="form-control mt-3"
+      [(ngModel)]="editUser.isActive"
+      name="isActive"
+    >
+      <option [ngValue]="true">Active</option>
+      <option [ngValue]="false">Inactive</option>
+    </select>
+    <button type="submit" (click)="updateUser()" class="btn btn-primary mt-3">
+      Update
+    </button>
+  </form>
+</div>

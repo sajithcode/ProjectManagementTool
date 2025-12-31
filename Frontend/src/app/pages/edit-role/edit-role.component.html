@@ -1,12 +1,12 @@
 <div class="container mt-4">
   <h3 class="mb-3">Edit Role</h3>
-  <form (ngSubmit)="updateRole()">
+  <form>
     <div class="form-group">
       <label for="email">Role Name:</label>
       <input
         type="text"
         class="form-control"
-        id="email"
+        id="roleName"
         [(ngModel)]="editRole.roleName"
         name="roleName"
       />
@@ -16,7 +16,7 @@
       <input
         type="text"
         class="form-control"
-        id="pwd"
+        id="roleDescription"
         [(ngModel)]="editRole.roleDescription"
         name="roleDescription"
       />
@@ -29,7 +29,7 @@
       <option [ngValue]="true">Active</option>
       <option [ngValue]="false">Inactive</option>
     </select>
-    <button type="submit" class="btn btn-primary mt-3">
+    <button type="submit" (click)="updateRole()" class="btn btn-primary mt-3">
       Update
     </button>
   </form>
